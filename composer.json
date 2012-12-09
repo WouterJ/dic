@@ -1,0 +1,17 @@
+{
+    "name":        "wj/dic",
+    "description": "A smart Dependency Injection Container",
+    "authors": [
+        {
+            "name": "Wouter J",
+            "email": "wouter@wouterj.nl"
+        }
+    ],
+
+    "require": {
+        "fsi/cache": "dev-master"
+    },
+    "require-dev": {
+        "mockery/mockery": "dev-master"
+    }
+}

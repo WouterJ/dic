@@ -1,0 +1,55 @@
+{
+    "hash": "790e0a7f97336e0ee62c6bc7ada79ec8",
+    "packages": [
+        {
+            "name": "fsi/cache",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fsi-open/cache",
+                "reference": "0.9.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/fsi-open/cache/archive/0.9.3.zip",
+                "reference": "0.9.3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "time": "1352380696",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "FSi\\Component\\Cache": "lib/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Norbert Orzechowicz",
+                    "email": "norbert@fsi.pl"
+                }
+            ],
+            "description": "FSi Cache - Lightweight component that supports different cache storages with namespaces.",
+            "keywords": [
+                "cache",
+                "component",
+                "fsi"
+            ]
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "fsi/cache": 20,
+        "mockery/mockery": 20
+    }
+}
