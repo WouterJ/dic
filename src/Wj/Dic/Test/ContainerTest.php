@@ -40,6 +40,49 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         });
 
         $this->assertTrue($c->hasFactory('mailer'));
-        $this->assertInstanceOf('\Mailer', $c->getFactory('mailer'));
+
+        $mailer = $c->getFactory('mailer');
+        $this->assertInstanceOf('\Mailer', $mailer);
+        $this->assertEquals('sendmail', $mailer->getTransport());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testWrongFactories()
+    {
+        $this->container->setFactory('mailer', 'foo');
+    }
+
+    public function testInstanceManagerWithStaticParameters()
+    {
+        $this->notImplemented();
+
+        $c = $this->container;
+        $c->setInstance('\Mailer', array(
+            'sendmail',
+        ));
+
+        $mailer = $c->get('\Mailer');
+
+        $this->assertInstanceOf('\Mailer', $mailer);
+        $this->assertEquals('sendmail', $mailer->getTransport());
+    }
+
+    public function testInstanceManagerWithObjectParameters()
+    {
+        $this->notImplemented();
+
+        $newsletter = $this->container->get('\NewsLetter');
+        $this->assertInstanceOf('\NewsLetter', $newsletter);
+
+        $mailer = $newsletter->getMailer();
+        $this->assertInstanceOf('\Mailer', $mailer);
+        $this->assertEquals('sendmail', $mailer->getTransport());
+    }
+
+    private function notImplemented()
+    {
+        $this->markTestIncomplete('Not yet implemented');
     }
 }

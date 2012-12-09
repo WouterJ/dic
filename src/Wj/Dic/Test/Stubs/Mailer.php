@@ -8,4 +8,9 @@ class Mailer
     {
         $this->transport = $transport;
     }
+
+    public function getTransport()
+    {
+        return $this->transport;
+    }
 }
