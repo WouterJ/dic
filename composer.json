@@ -13,5 +13,11 @@
     },
     "require-dev": {
         "mockery/mockery": "dev-master"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
     }
 }
