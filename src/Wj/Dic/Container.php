@@ -109,4 +109,13 @@ class Container
 
         return isset($factories[$id]) || array_key_exists($id, $factories);
     }
+
+    /**
+     * @param InstanceManagerInterface $instanceManager Optional. The InstanceManager, defaults
+     *                                                  to Wj\Dic\InstanceManager\InstanceManager
+     */
+    public function setInstanceManager(InstanceManangerInterface $instanceManager)
+    {
+        $this->instanceManager = $instanceManager;
+    }
 }
