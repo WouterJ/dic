@@ -56,8 +56,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     public function testInstanceManagerWithStaticParameters()
     {
-        $this->notImplemented();
-
         $c = $this->container;
         $c->setInstance('\Mailer', array(
             'sendmail',

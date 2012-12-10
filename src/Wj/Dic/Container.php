@@ -2,6 +2,11 @@
 
 namespace Wj\Dic;
 
+
+use Wj\Dic\InstanceManager\InstanceManager;
+use Wj\Dic\InstanceManager\InstanceManagerInterface;
+
+
 /**
  * The Container class is a smart Dependency Injection Container
  *
@@ -11,6 +16,11 @@ class Container
 {
     private $parameters = array();
     private $factories  = array();
+
+    /**
+     * @var InstanceManagerInterface
+     */
+    private $instanceManager;
 
     /**
      * @param string $id    The identifier of the parameter, e.g. mailer.transport
@@ -111,11 +121,22 @@ class Container
     }
 
     /**
-     * @param InstanceManagerInterface $instanceManager Optional. The InstanceManager, defaults
-     *                                                  to Wj\Dic\InstanceManager\InstanceManager
+     * @param InstanceManagerInterface $instanceManager
      */
     public function setInstanceManager(InstanceManangerInterface $instanceManager)
     {
         $this->instanceManager = $instanceManager;
+    }
+
+    /**
+     * @return InstanceManagerInterface
+     */
+    public function getInstanceManager()
+    {
+        if (null === $this->instanceManager) {
+            $this->setInstanceManager(new InstanceManager());
+        }
+
+        return $this->instanceManager;
     }
 }
