@@ -7,6 +7,8 @@ use Wj\Dic\Container;
 
 require_once __DIR__.'/Stubs/Mailer.php';
 require_once __DIR__.'/Stubs/NewsLetter.php';
+require_once __DIR__.'/Stubs/MailerAwareInterface.php';
+require_once __DIR__.'/Stubs/Registration.php';
 
 
 /**
