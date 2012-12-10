@@ -123,7 +123,7 @@ class Container
     /**
      * @param InstanceManagerInterface $instanceManager
      */
-    public function setInstanceManager(InstanceManangerInterface $instanceManager)
+    public function setInstanceManager(InstanceManagerInterface $instanceManager)
     {
         $this->instanceManager = $instanceManager;
     }
