@@ -126,6 +126,7 @@ class Container
     public function setInstanceManager(InstanceManagerInterface $instanceManager)
     {
         $this->instanceManager = $instanceManager;
+        $instanceManager->setContainer($this);
     }
 
     /**
@@ -138,5 +139,30 @@ class Container
         }
 
         return $this->instanceManager;
+    }
+
+    /**
+     * Sets which arguments to use for an instance.
+     *
+     * @param string $name      The name of the instance
+     * @param array  $arguments The arguments for the instance
+     *
+     * @see InstanceManagerInterface::registerInstanceArguments
+     */
+    public function setInstance($name, array $arguments)
+    {
+        $this->getInstanceManager()->registerInstanceArguments($name, $arguments);
+    }
+
+    /**
+     * Gets a specific instance.
+     *
+     * @param string $name The name of the instance
+     *
+     * @return object The instance
+     */
+    public function getInstance($name)
+    {
+        return $this->getInstanceManager()->getInstance($name);
     }
 }

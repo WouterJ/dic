@@ -2,6 +2,10 @@
 
 namespace Wj\Dic\InstanceManager;
 
+
+use Wj\Dic\Container;
+
+
 /**
  * This interface must be implemented by all Instance Managers.
  *
@@ -25,4 +29,9 @@ interface InstanceManagerInterface
      * @return object The instance
      */
     public function getInstance($name);
+
+    /**
+     * @param Container $container
+     */
+    public function setContainer(Container $container);
 }
