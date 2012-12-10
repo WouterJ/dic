@@ -6,6 +6,7 @@ namespace Wj\Dic\Test;
 use Wj\Dic\Container;
 
 require_once __DIR__.'/Stubs/Mailer.php';
+require_once __DIR__.'/Stubs/NewsLetter.php';
 
 
 class ContainerTest extends \PHPUnit_Framework_TestCase
@@ -61,7 +62,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             'sendmail',
         ));
 
-        $mailer = $c->get('\Mailer');
+        $mailer = $c->getInstance('\Mailer');
 
         $this->assertInstanceOf('\Mailer', $mailer);
         $this->assertEquals('sendmail', $mailer->getTransport());
@@ -69,9 +70,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     public function testInstanceManagerWithObjectParameters()
     {
-        $this->notImplemented();
-
-        $newsletter = $this->container->get('\NewsLetter');
+        $newsletter = $this->container->getInstance('\NewsLetter');
         $this->assertInstanceOf('\NewsLetter', $newsletter);
 
         $mailer = $newsletter->getMailer();
