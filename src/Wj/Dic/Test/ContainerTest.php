@@ -148,6 +148,35 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->container->get('foo');
     }
 
+    public function testHasserWithParameters()
+    {
+        $c = $this->container;
+
+        $this->assertFalse($c->has('foo'));
+        $c->setParameter('foo', 'bar');
+        $this->assertTrue($c->has('foo'));
+    }
+
+    public function testHasserWithFactories()
+    {
+        $c = $this->container;
+
+        $this->assertFalse($c->has('mailer'));
+        $c->setFactory('mailer', function () {
+            return new Mailer('sendmail');
+        });
+        $this->assertTrue($c->has('mailer'));
+    }
+
+    public function testHasserWithInstances()
+    {
+        $c = $this->container;
+
+        $this->assertFalse($c->has('Mailer'));
+        $c->setInstance('Mailer', array('sendmail'));
+        $this->assertTrue($c->has('Mailer'));
+    }
+
     private function notImplemented()
     {
         $this->markTestIncomplete('Not yet implemented');
