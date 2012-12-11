@@ -8,7 +8,7 @@ use Wj\Dic\InstanceManager\InstanceManagerInterface;
 
 
 /**
- * The Container class is a smart Dependency Injection Container
+ * The Container class is a smart Dependency Injection Container.
  *
  * @author Wouter J <wouter@wouterj.nl>
  */
@@ -47,6 +47,8 @@ class Container
      * @param string $id The idientifier for the parameter
      *
      * @return mixed The value of the parameter
+     *
+     * @throws \LogicException if the parameter does not exists
      */
     public function getParameter($id)
     {
@@ -72,6 +74,8 @@ class Container
     /**
      * @param string              $id      The identifier for the factory
      * @param string|object|array $factory The factory, this can be anything that passes the is_callable() function
+     *
+     * @throws \InvalidArgumentException if the factory isn't callable
      */
     public function setFactory($id, $factory)
     {
@@ -98,6 +102,8 @@ class Container
      * @param string $id the identifier for the factory
      *
      * @return mixed The return value of the factory
+     *
+     * @throws \LogicException if the factory does not exists
      */
     public function getFactory($id)
     {
@@ -188,6 +194,8 @@ class Container
      * The shortcut method for all get* methods in this class.
      *
      * @param string $name The name of the class
+     *
+     * @throws \RuntimeException if the service does not exists
      *
      * @see self::getParameter
      * @see self::getFactory
