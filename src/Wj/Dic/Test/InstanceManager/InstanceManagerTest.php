@@ -63,6 +63,17 @@ class InstanceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('sendmail', $mailer->getTransport());
     }
 
+    public function testInstancesWithParameterParaters()
+    {
+        $this->getContainer()->setParameter('mailer.transport', 'sendmail');
+        $m = $this->manager;
+        $m->registerInstanceArguments('Mailer', array('%mailer.transport%'));
+
+        $mailer = $m->getInstance('Mailer');
+        $this->assertInstanceOf('Mailer', $mailer);
+        $this->assertEquals('sendmail', $mailer->getTransport());
+    }
+
     public function testInstancesAreNotShared()
     {
         $m = $this->manager;
