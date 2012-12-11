@@ -117,7 +117,7 @@ class Container implements ContainerInterface
      *
      * @throws \InvalidArgumentException if the factory isn't callable
      */
-    public function setFactory($id, $factory, $shared = false)
+    public function setFactory($id, $factory, $shared = null)
     {
         if (!is_callable($factory)) {
             throw new \InvalidArgumentException(sprintf('The factory ("%s") must be a callable', $id));
@@ -125,7 +125,7 @@ class Container implements ContainerInterface
 
         $this->factories[$id] = $factory;
 
-        if ($this->isSharingByDefault() || $shared) {
+        if (($this->isSharingByDefault() && false !== $shared) || $shared) {
             $this->sharedFactories[$id] = null;
         }
     }
