@@ -86,6 +86,27 @@ class InstanceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame($newsletter->getMailer(), $newsletter1->getMailer());
     }
 
+    /**
+     * @expectedException        Wj\Dic\Exception\InstanceManager\CouldNotInitializeException
+     * @expectedExceptionMessage Could not initialize the "Foo" class; the class does not exists
+     */
+    public function testThrowExceptionIfClassDoesNotExists()
+    {
+        $this->manager->getInstance('Foo');
+    }
+
+    /**
+     * @expectedException Wj\Dic\Exception\InstanceManager\CouldNotInitializeException
+     * @expectedExceptionMessage Could not initialize the "Mailer" class; the constructor needs 1 required parameters, 0 given
+     */
+    public function testThrowExceptionIfItGetsToLessArguments()
+    {
+        $m = $this->manager;
+        $m->registerInstanceArguments('Mailer', array());
+
+        $m->getInstance('Mailer');
+    }
+
     protected function setContainer($container)
     {
         $this->container = $container;
