@@ -6,8 +6,8 @@ namespace Wj\Dic\Test\InstanceManager;
 use Wj\Dic\Container;
 use Wj\Dic\InstanceManager\InstanceManager;
 
-require_once __DIR__.'/../Stubs/NewsLetter.php';
 require_once __DIR__.'/../Stubs/Mailer.php';
+require_once __DIR__.'/../Stubs/NewsLetter.php';
 
 
 class InstanceManagerTest extends \PHPUnit_Framework_TestCase
@@ -63,7 +63,7 @@ class InstanceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('sendmail', $mailer->getTransport());
     }
 
-    public function testInstancesWithParameterParaters()
+    public function testInstancesWithParameterParameters()
     {
         $this->getContainer()->setParameter('mailer.transport', 'sendmail');
         $m = $this->manager;

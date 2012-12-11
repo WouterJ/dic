@@ -75,7 +75,7 @@ class InstanceManager implements InstanceManagerInterface
         if (count($parameters) < $requiredParams) {
             throw $this->generateInitializeException($name, 
                 sprintf(
-                    'the constructor needs %d required parameters, %d given',
+                    'the constructor has %d required parameters, %d given',
                     $requiredParams, count($parameters)
                 )
             );
