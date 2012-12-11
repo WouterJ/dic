@@ -50,12 +50,49 @@ class InstanceManager implements InstanceManagerInterface
         }
 
         if (isset($this->instances[$name])) {
-            $arguments = $this->instances[$name];
+            $arguments = $this->getArgumentsFromParameters($name, $this->instances[$name]);
         } else {
-            $arguments = $this->getArgumentsFromClassName($name);
+            $this->instances[$name] = $this->getArgumentsFromClassName($name);
+            $arguments = $this->getArgumentsFromParameters($name, $this->instances[$name]);
         }
 
         return $reflection->newInstanceArgs($arguments);
+    }
+
+    /**
+     * Creates arguments from the predefined parameters.
+     *
+     * @param array $parameters All predefined parameters for the constructor
+     *
+     * @return array The arguments
+     *
+     * @throws \RuntimeException if the are more required parameters than the parameters given
+     */
+    protected function getArgumentsFromParameters($name, array $parameters)
+    {
+        $reflection = new \ReflectionClass($name);
+        $requiredParams = $reflection->getConstructor()->getNumberOfRequiredParameters();
+
+        if (count($parameters) < $requiredParams) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Could not initalize the "%s" class, there are %d required parameters, %d given', 
+                    $name, $requiredParams, count($parameters)
+                )
+            );
+        }
+
+        $self = $this;
+        $arguments = array_map(function ($item) use ($self) {
+            if ('@' == substr($item, 0, 1)) {
+                return $self->getContainer()->get(
+                    substr($item, 1)
+                );
+            }
+            return $item;
+        }, $parameters);
+
+        return $arguments;
     }
 
     /**
@@ -89,8 +126,7 @@ class InstanceManager implements InstanceManagerInterface
                 $class = $parameter->getClass();
 
                 if (null !== $class) {
-                    // todo: change getInstance into a more verbose get method
-                    $arguments[] = $this->getContainer()->getInstance($class->getName());
+                    $arguments[] = '@'.$class->getName();
                     continue;
                 } else {
                     throw new \LogicException(
@@ -118,7 +154,7 @@ class InstanceManager implements InstanceManagerInterface
     /**
      * @return Container
      */
-    protected function getContainer()
+    public function getContainer()
     {
         return $this->container;
     }
