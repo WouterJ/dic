@@ -36,9 +36,7 @@ class InstanceManager implements InstanceManagerInterface
     public function getInstance($name)
     {
         if (!class_exists($name)) {
-            throw new \RuntimeException(
-                sprintf('We are not able to initialize the "%s" class, as it does not exists', $name)
-            );
+            throw $this->getInitializeException($name, 'the class does not exists');
         }
 
         $reflection = new \ReflectionClass($name);
@@ -74,10 +72,10 @@ class InstanceManager implements InstanceManagerInterface
         $requiredParams = $reflection->getConstructor()->getNumberOfRequiredParameters();
 
         if (count($parameters) < $requiredParams) {
-            throw new \RuntimeException(
+            throw $this->getInitializeException($name, 
                 sprintf(
-                    'Could not initalize the "%s" class, there are %d required parameters, %d given', 
-                    $name, $requiredParams, count($parameters)
+                    'the constructor needs are %d required parameters, %d given',
+                    $requiredParams, count($parameters)
                 )
             );
         }
@@ -132,14 +130,10 @@ class InstanceManager implements InstanceManagerInterface
                     $arguments[] = '@'.$class->getName();
                     continue;
                 } else {
-                    throw new \LogicException(
-                        sprintf('Could not initalize the "%s" class, it has undefined parameters', $name)
-                    );
+                    throw $this->generateInitializeException($name, 'it has undefined parameters');
                 }
 
-                throw new \LogicException(
-                    sprintf('Could not initialize the "%s" class, it has undefined services as parameters', $name)
-                );
+                throw $this->generateInitializeException($name, 'it has undefined services as parameters');
             }
 
             return $arguments;
@@ -160,5 +154,25 @@ class InstanceManager implements InstanceManagerInterface
     public function getContainer()
     {
         return $this->container;
+    }
+
+    /**
+     * Generates a new exception.
+     *
+     * @param string $name    The name of the class
+     * @param string $message The describtion why we couldn't initialize the class
+     *
+     * @return \LogicException
+     */
+    private function getInitializeException($name, $message = null)
+    {
+        if (null !== $message) {
+            $message = '; '.trim($message);
+        }
+
+        return new \LogicException(
+            'Could not initialize the "%" class%s',
+            $name, $message
+        );
     }
 }
