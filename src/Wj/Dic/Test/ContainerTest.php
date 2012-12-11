@@ -9,6 +9,9 @@ require_once __DIR__.'/Stubs/Mailer.php';
 require_once __DIR__.'/Stubs/NewsLetter.php';
 
 
+/**
+ * @covers Container
+ */
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     protected $container;
