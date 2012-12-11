@@ -19,12 +19,48 @@ class Container implements ContainerInterface
     private $factories       = array();
     private $sharedFactories = array();
 
+    private $mode;
+
     const NEW_INSTANCE = 1;
+    const SHARE = 2;
 
     /**
      * @var InstanceManagerInterface
      */
     private $instanceManager;
+
+    /**
+     * @param int $mode Optional The mode (SHARE or NEW_INSTANCE), NEW_INSTANCE by default
+     */
+    public function __construct($mode = null)
+    {
+        if (null === $mode) {
+            $mode = self::NEW_INSTANCE;
+        }
+        $this->setSharing($mode);
+    }
+
+    /**
+     * @param int $mode Optional The mode (SHARE or NEW_INSTANCE), NEW_INSTANCE by default
+     *
+     * @throws \InvalidArgumentException if the mode isn't between 1 and 3 (which are the available modes)
+     */
+    public function setSharing($mode)
+    {
+        if ($mode > 1 || $mode < 3) {
+            $this->mode = $mode;
+        } else {
+            throw new \InvalidArgumentException(sprintf('Mode "%s" is not available', $mode));
+        }
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSharingByDefault()
+    {
+        return self::SHARE === (self::SHARE & $this->mode);
+    }
 
     /**
      * @param string $id    The identifier of the parameter, e.g. mailer.transport
@@ -89,7 +125,7 @@ class Container implements ContainerInterface
 
         $this->factories[$id] = $factory;
 
-        if ($shared) {
+        if ($this->isSharingByDefault() || $shared) {
             $this->sharedFactories[$id] = null;
         }
     }

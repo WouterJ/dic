@@ -198,7 +198,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testSharingOption()
     {
         $c = $this->container;
-        $c->setSharingByDefault();
+        $c->setSharing(Container::SHARE);
         $c->setFactory('Mailer', function ($c) {
             return new \Mailer('sendmail');
         });
