@@ -195,6 +195,17 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($c->get('Mailer'), $c->get('Mailer'));
     }
 
+    public function testSharingOption()
+    {
+        $c = $this->container;
+        $c->setSharingByDefault();
+        $c->setFactory('Mailer', function ($c) {
+            return new \Mailer('sendmail');
+        });
+
+        $this->assertSame($c->getFactory('Mailer'), $c->getFactory('Mailer'));
+    }
+
     private function notImplemented()
     {
         $this->markTestIncomplete('Not yet implemented');
