@@ -3,6 +3,7 @@
 namespace Wj\Dic;
 
 
+use Wj\Dic\Exception\NotFoundException;
 use Wj\Dic\InstanceManager\InstanceManager;
 use Wj\Dic\InstanceManager\InstanceManagerInterface;
 
@@ -48,12 +49,12 @@ class Container implements ContainerInterface
      *
      * @return mixed The value of the parameter
      *
-     * @throws \LogicException if the parameter does not exists
+     * @throws NotFoundException if the parameter does not exists
      */
     public function getParameter($id)
     {
         if (!$this->hasParameter($id)) {
-            throw new \LogicException(sprintf('The parameter "%s" does not exists', $id));
+            throw new NotFoundException(sprintf('The parameter "%s" does not exists', $id));
         }
 
         return $this->parameters[$id];
@@ -103,12 +104,12 @@ class Container implements ContainerInterface
      *
      * @return mixed The return value of the factory
      *
-     * @throws \LogicException if the factory does not exists
+     * @throws NotFoundException if the factory does not exists
      */
     public function getFactory($id)
     {
         if (!$this->hasFactory($id)) {
-            throw new \LogicException(sprintf('The factory "%s" does not exists', $id));
+            throw new NotFoundException(sprintf('The factory "%s" does not exists', $id));
         }
 
         return $this->factories[$id]($this);
@@ -193,7 +194,7 @@ class Container implements ContainerInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \RuntimeException if the service does not exists
+     * @throws NotFoundException if the service does not exists
      *
      * @see self::getParameter
      * @see self::getFactory
@@ -208,9 +209,7 @@ class Container implements ContainerInterface
         } elseif ($this->canCreateInstance($name)) {
             return $this->getInstance($name);
         } else {
-            throw new \RuntimeException(
-                sprintf('The "%s" service does not exists', $name)
-            );
+            throw new NotFoundException(sprintf('The service "%s" does not exists', $name));
         }
     }
 
