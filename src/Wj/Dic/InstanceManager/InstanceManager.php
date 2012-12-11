@@ -37,7 +37,7 @@ class InstanceManager implements InstanceManagerInterface
     public function getInstance($name)
     {
         if (!class_exists($name)) {
-            throw $this->getInitializeException($name, 'the class does not exists');
+            throw $this->generateInitializeException($name, 'the class does not exists');
         }
 
         $reflection = new \ReflectionClass($name);
@@ -73,9 +73,9 @@ class InstanceManager implements InstanceManagerInterface
         $requiredParams = $reflection->getConstructor()->getNumberOfRequiredParameters();
 
         if (count($parameters) < $requiredParams) {
-            throw $this->getInitializeException($name, 
+            throw $this->generateInitializeException($name, 
                 sprintf(
-                    'the constructor needs are %d required parameters, %d given',
+                    'the constructor needs %d required parameters, %d given',
                     $requiredParams, count($parameters)
                 )
             );
@@ -165,15 +165,17 @@ class InstanceManager implements InstanceManagerInterface
      *
      * @return CouldNotInitializeException
      */
-    private function getInitializeException($name, $message = null)
+    private function generateInitializeException($name, $message = null)
     {
         if (null !== $message) {
             $message = '; '.trim($message);
         }
 
         return new CouldNotInitializeException(
-            'Could not initialize the "%" class%s',
-            $name, $message
+            sprintf(
+                'Could not initialize the "%s" class%s',
+                $name, $message
+            )
         );
     }
 }
