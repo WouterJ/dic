@@ -15,8 +15,11 @@ use Wj\Dic\InstanceManager\InstanceManagerInterface;
  */
 class Container implements ContainerInterface
 {
-    private $parameters = array();
-    private $factories  = array();
+    private $parameters      = array();
+    private $factories       = array();
+    private $sharedFactories = array();
+
+    const NEW_INSTANCE = 1;
 
     /**
      * @var InstanceManagerInterface
@@ -78,13 +81,17 @@ class Container implements ContainerInterface
      *
      * @throws \InvalidArgumentException if the factory isn't callable
      */
-    public function setFactory($id, $factory)
+    public function setFactory($id, $factory, $shared = false)
     {
         if (!is_callable($factory)) {
             throw new \InvalidArgumentException(sprintf('The factory ("%s") must be a callable', $id));
         }
 
         $this->factories[$id] = $factory;
+
+        if ($shared) {
+            $this->sharedFactories[$id] = null;
+        }
     }
 
     /**
@@ -98,21 +105,54 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Checks if a specific factory is shared.
+     *
+     * @param string $id The identifier for the factory
+     *
+     * @return object|boolean The shared object, if it is shared and false otherwise
+     */
+    public function getSharedFactory($id)
+    {
+        if (isset($this->sharedFactories[$id])) {
+            // it does exists
+            return $this->sharedFactories[$id];
+        } elseif (array_key_exists($id, $this->sharedFactories)) {
+            // it is shared, but isn't initialized yet
+            $this->sharedFactories[$id] = $factory = $this->getFactory($id, self::NEW_INSTANCE);
+
+            return $factory;
+        }
+        return false;
+    }
+
+    /**
      * Gets a specific factory.
      *
-     * @param string $id the identifier for the factory
+     * @param string $id             The identifier for the factory
+     * @param mixed  $flags Optional Any flags to set settings
      *
      * @return mixed The return value of the factory
      *
      * @throws NotFoundException if the factory does not exists
      */
-    public function getFactory($id)
+    public function getFactory($id, $flags = null)
     {
         if (!$this->hasFactory($id)) {
             throw new NotFoundException(sprintf('The factory "%s" does not exists', $id));
         }
 
-        return $this->factories[$id]($this);
+        if (self::NEW_INSTANCE === (self::NEW_INSTANCE & $flags)) {
+            $factory = $this->factories[$id];
+        } else {
+            $factory = $this->getSharedFactory($id);
+            if (false === $factory) {
+                $factory = $this->factories[$id];
+            } else {
+                return $factory;
+            }
+        }
+
+        return $factory($this);
     }
 
     /**
