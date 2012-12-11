@@ -97,7 +97,7 @@ class InstanceManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Wj\Dic\Exception\InstanceManager\CouldNotInitializeException
-     * @expectedExceptionMessage Could not initialize the "Mailer" class; the constructor needs 1 required parameters, 0 given
+     * @expectedExceptionMessage Could not initialize the "Mailer" class; the constructor has 1 required parameters, 0 given
      */
     public function testThrowExceptionIfItGetsToLessArguments()
     {
