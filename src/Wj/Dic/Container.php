@@ -225,6 +225,6 @@ class Container
      */
     public function has($name)
     {
-        return $this->hasParameter($name) || $this->hasFactory($name);
+        return $this->hasParameter($name) || $this->hasFactory($name) || $this->canCreateInstance($name);
     }
 }
