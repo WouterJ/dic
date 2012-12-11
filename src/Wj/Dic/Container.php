@@ -160,10 +160,28 @@ class Container
      * @param string $name The name of the instance
      *
      * @return object The instance
+     *
+     * @see InstanceManagerInterface::getInstance
      */
     public function getInstance($name)
     {
         return $this->getInstanceManager()->getInstance($name);
+    }
+
+    /**
+     * Checks if we can create an instance of a class.
+     *
+     * @param string $name The name of the instance
+     */
+    public function canCreateInstance($name)
+    {
+        try {
+            $this->getInstance($name);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -180,6 +198,8 @@ class Container
             return $this->getParameter($name);
         } elseif ($this->hasFactory($name)) {
             return $this->getFactory($name);
+        } elseif ($this->canCreateInstance($name)) {
+            return $this->getInstance($name);
         } else {
             throw new \RuntimeException(
                 sprintf('The "%s" service does not exists', $name)
