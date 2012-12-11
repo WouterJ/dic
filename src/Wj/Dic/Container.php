@@ -165,4 +165,34 @@ class Container
     {
         return $this->getInstanceManager()->getInstance($name);
     }
+
+    /**
+     * The shortcut method for all get* methods in this class.
+     *
+     * @param string $name The name of the class
+     *
+     * @see self::getParameter
+     */
+    public function get($name)
+    {
+        if ($this->hasParameter($name)) {
+            return $this->getParameter($name);
+        } else {
+            throw new \RuntimeException(
+                sprintf('The "%s" service does not exists', $name)
+            );
+        }
+    }
+
+    /**
+     * The shortcut method for all has* methods in this class.
+     *
+     * @param string $name The name of the class
+     *
+     * @see self::hasParameter
+     */
+    public function has($name)
+    {
+        return $this->hasParameter($name);
+    }
 }
