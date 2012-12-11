@@ -12,7 +12,7 @@ use Wj\Dic\InstanceManager\InstanceManagerInterface;
  *
  * @author Wouter J <wouter@wouterj.nl>
  */
-class Container
+class Container implements ContainerInterface
 {
     private $parameters = array();
     private $factories  = array();
@@ -191,14 +191,13 @@ class Container
     }
 
     /**
-     * The shortcut method for all get* methods in this class.
-     *
-     * @param string $name The name of the class
+     * {@inheritdoc}
      *
      * @throws \RuntimeException if the service does not exists
      *
      * @see self::getParameter
      * @see self::getFactory
+     * @see self::canCreateInstance
      */
     public function get($name)
     {
