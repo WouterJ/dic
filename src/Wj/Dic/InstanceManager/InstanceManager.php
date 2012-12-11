@@ -7,7 +7,7 @@ use Wj\Dic\Container;
 
 
 /**
- * The basic implementation of the InstanceManagerInterface
+ * The basic implementation of the InstanceManagerInterface.
  *
  * @author Wouter J <wouter@wouterj.nl>
  */
@@ -30,6 +30,8 @@ class InstanceManager implements InstanceManagerInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \RunTimeException if the class does not exists
      */
     public function getInstance($name)
     {
@@ -59,7 +61,10 @@ class InstanceManager implements InstanceManagerInterface
     /**
      * @param string $name The name of the class
      *
-     * @return array The parameters
+     * @return array The arguments
+     *
+     * @throws \LogicException if the constructor has undefined static arguments
+     * @throws \LogicException if the constructor has undefined services in the arguments
      */
     protected function getArgumentsFromClassName($name)
     {
