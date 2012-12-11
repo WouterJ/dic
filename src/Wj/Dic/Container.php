@@ -172,11 +172,14 @@ class Container
      * @param string $name The name of the class
      *
      * @see self::getParameter
+     * @see self::getFactory
      */
     public function get($name)
     {
         if ($this->hasParameter($name)) {
             return $this->getParameter($name);
+        } elseif ($this->hasFactory($name)) {
+            return $this->getFactory($name);
         } else {
             throw new \RuntimeException(
                 sprintf('The "%s" service does not exists', $name)
@@ -190,9 +193,10 @@ class Container
      * @param string $name The name of the class
      *
      * @see self::hasParameter
+     * @see self::hasFactory
      */
     public function has($name)
     {
-        return $this->hasParameter($name);
+        return $this->hasParameter($name) || $this->hasFactory($name);
     }
 }
