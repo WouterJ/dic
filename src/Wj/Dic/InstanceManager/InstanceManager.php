@@ -85,9 +85,12 @@ class InstanceManager implements InstanceManagerInterface
         $self = $this;
         $arguments = array_map(function ($item) use ($self) {
             if ('@' == substr($item, 0, 1)) {
-                return $self->getContainer()->get(
-                    substr($item, 1)
-                );
+                return $self->getContainer()->get(substr($item, 1));
+            } elseif ('%' == substr($item, 0, 1)) {
+                preg_match('|%(.*?)%|', $item, $data);
+                list(, $parameter) = $data;
+
+                return $self->getContainer()->getParameter($parameter);
             }
             return $item;
         }, $parameters);
