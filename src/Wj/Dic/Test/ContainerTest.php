@@ -79,6 +79,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('sendmail', $mailer->getTransport());
     }
 
+    public function testShortCutMethodWithParameters()
+    {
+        $c = $this->container;
+        $c->setParameter('mailer.transport', 'sendmail');
+
+        $this->assertTrue($c->has('mailer.transport'));
+        $this->assertEquals('sendmail', $c->get('mailer.transport'));
+    }
+
     private function notImplemented()
     {
         $this->markTestIncomplete('Not yet implemented');
