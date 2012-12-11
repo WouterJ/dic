@@ -34,6 +34,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('sendmail', $c->getParameter('mailer.transport'));
     }
 
+    /**
+     * @expectedException Wj\Dic\Exception\NotFoundException
+     * @expectedExceptionMessage The parameter "foo" does not exists
+     */
+    public function testThrowExceptionIfParameterDoesNotExists()
+    {
+        $this->container->getParameter('foo');
+    }
+
     public function testFactories()
     {
         $c = $this->container;
@@ -52,10 +61,20 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The factory ("mailer") must be a callable
      */
-    public function testWrongFactories()
+    public function testThrowExceptionIfFactoryIsNotCallable()
     {
         $this->container->setFactory('mailer', 'foo');
+    }
+
+    /**
+     * @expectedException Wj\Dic\Exception\NotFoundException
+     * @expectedExceptionMessage The factory "foo" does not exists
+     */
+    public function testThrowExceptionIfFactoryDoesNotExists()
+    {
+        $this->container->getFactory('foo');
     }
 
     public function testInstanceManagerWithStaticParameters()
@@ -118,6 +137,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $mailer = $newsletter->getMailer();
         $this->assertInstanceOf('Mailer', $mailer);
         $this->assertEquals('sendmail', $mailer->getTransport());
+    }
+
+    /**
+     * @expectedException Wj\Dic\Exception\NotFoundException
+     * @expectedExceptionMessage The service "foo" does not exists
+     */
+    public function testThrowExceptionIfServiceDoesNotExists()
+    {
+        $this->container->get('foo');
     }
 
     private function notImplemented()
