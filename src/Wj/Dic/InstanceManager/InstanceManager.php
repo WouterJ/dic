@@ -4,6 +4,7 @@ namespace Wj\Dic\InstanceManager;
 
 
 use Wj\Dic\Container;
+use Wj\Dic\Exception\InstanceManager\CouldNotInitializeException;
 
 
 /**
@@ -31,7 +32,7 @@ class InstanceManager implements InstanceManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \RunTimeException if the class does not exists
+     * @throws CouldNotInitializeException if the class does not exists
      */
     public function getInstance($name)
     {
@@ -64,7 +65,7 @@ class InstanceManager implements InstanceManagerInterface
      *
      * @return array The arguments
      *
-     * @throws \RuntimeException if the are more required parameters than the parameters given
+     * @throws CouldNotInitializeException if there are more required parameters than the parameters given
      */
     protected function getArgumentsFromParameters($name, array $parameters)
     {
@@ -101,8 +102,8 @@ class InstanceManager implements InstanceManagerInterface
      *
      * @return array The arguments
      *
-     * @throws \LogicException if the constructor has undefined static arguments
-     * @throws \LogicException if the constructor has undefined services in the arguments
+     * @throws CouldNotInitializeException if the constructor has undefined static arguments
+     * @throws CouldNotInitializeException if the constructor has undefined services in the arguments
      */
     protected function getArgumentsFromClassName($name)
     {
@@ -162,7 +163,7 @@ class InstanceManager implements InstanceManagerInterface
      * @param string $name    The name of the class
      * @param string $message The describtion why we couldn't initialize the class
      *
-     * @return \LogicException
+     * @return CouldNotInitializeException
      */
     private function getInitializeException($name, $message = null)
     {
@@ -170,7 +171,7 @@ class InstanceManager implements InstanceManagerInterface
             $message = '; '.trim($message);
         }
 
-        return new \LogicException(
+        return new CouldNotInitializeException(
             'Could not initialize the "%" class%s',
             $name, $message
         );
