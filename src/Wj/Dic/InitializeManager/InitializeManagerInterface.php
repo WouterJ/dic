@@ -27,7 +27,7 @@ interface InitializeManagerInterface
      * @param object $instance  The instance to modify
      * @param string $interface The name of the interface
      */
-    public function getInstance($instance, $interface);
+    public function modifyInstance($instance, $interface);
 
     /**
      * @param Container $container
