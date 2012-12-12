@@ -105,4 +105,13 @@ class ContainerLoadTest extends ContainerTest
         $this->assertInstanceOf('Registration', $registration);
         $this->assertInstanceOf('Mailer', $registration->getMailer());
     }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Invalid type to load, it should be an array or Container, string given
+     */
+    public function testThrowExceptionIfWrongType()
+    {
+        $this->container->load('foo');
+    }
 }

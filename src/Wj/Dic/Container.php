@@ -423,6 +423,8 @@ class Container implements ContainerInterface
      *
      * @param Container|array $loading The config array or other Container to load
      *
+     * @throws \InvalidArgumentException if the $loading is not an array or Container
+     *
      * @see self::loadContainer
      * @see self::loadConfig
      */
@@ -432,6 +434,10 @@ class Container implements ContainerInterface
             $this->loadContainer($loading);
         } elseif (is_array($loading)) {
             $this->loadConfig($loading);
+        } else {
+            throw new \InvalidArgumentException(
+                sprintf('Invalid type to load, it should be an array or Container, %s given', gettype($loading))
+            );
         }
     }
 }
