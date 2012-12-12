@@ -202,5 +202,10 @@ En bij deze vorm van magie eindigt deze tutorial. Je hebt gelezen hoe je van een
 hele simpele parameter/factory structuur kunt eindigen in een nog simpelere vorm
 door de Container alles te laten raden.
 
+1 onderdeel van WjDic hebben we nog niet besproken, dat is het aanpassen van een
+object aan de hand van bepaalde interfaces. In "`Aanpassen met Interfaces`_" kun
+je hier meer over lezen.
+
 .. _`de Symfony Documentatie`: http://symfony.com/doc/current/book/service_container.html
 .. _`WjDic downloaden`: downloaden.rst
+.. _`Aanpassen met Interfaces`: interfaces.rst
