@@ -8,7 +8,7 @@ use Wj\Dic\Container;
 
 class ContainerLoadTest extends ContainerTest
 {
-    public function testLoadContainer()
+    public function testLoadContainerWithFactories()
     {
         $c = $this->container;
         $c1 = new Container();
@@ -22,5 +22,35 @@ class ContainerLoadTest extends ContainerTest
         $mailer = $c->get('mailer');
         $this->assertInstanceOf('Mailer', $mailer);
         $this->assertEquals('sendmail', $mailer->getTransport());
+    }
+
+    public function testLoadContainerWithInstances()
+    {
+        $c = $this->container;
+        $c1 = new Container();
+        $c1->setInstance('Mailer', array('sendmail'));
+
+        $c->load($c1);
+
+        $mailer = $c->get('Mailer');
+        $this->assertInstanceOf('Mailer', $mailer);
+        $this->assertEquals('sendmail', $mailer->getTransport());
+    }
+
+    public function testLoadContainerWithInitializers()
+    {
+        $c = $this->container;
+        $c->setInstance('Mailer', array('sendmail'));
+
+        $c1 = new Container();
+        $c1->setInitializer('MailerAwareInterface', function ($instance, $c1) {
+            $instance->setMailer($c1->get('Mailer'));
+        });
+
+        $c->load($c1);
+
+        $registration = $c->get('Registration');
+        $this->assertInstanceOf('Registration', $registration);
+        $this->assertInstanceOf('Mailer', $registration->getMailer());
     }
 }
