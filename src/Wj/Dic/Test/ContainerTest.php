@@ -25,6 +25,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->container = null;
     }
 
+
+
+
+
+    /*----------------------*\
+        PARAMETERS
+    \*----------------------*/
     public function testParameters()
     {
         $c = $this->container;
@@ -43,6 +50,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->container->getParameter('foo');
     }
 
+
+
+
+
+    /*----------------------*\
+        FACTORIES
+    \*----------------------*/
     public function testFactories()
     {
         $c = $this->container;
@@ -77,6 +91,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->container->getFactory('foo');
     }
 
+
+
+
+
+    /*----------------------*\
+        INSTANCES
+    \*----------------------*/
     public function testInstanceManagerWithStaticParameters()
     {
         $c = $this->container;
@@ -101,6 +122,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('sendmail', $mailer->getTransport());
     }
 
+
+
+
+
+    /*----------------------*\
+        SHORTCUT
+    \*----------------------*/
     public function testShortCutMethodWithParameters()
     {
         $c = $this->container;
@@ -177,6 +205,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($c->has('Mailer'));
     }
 
+
+
+
+
+    /*----------------------*\
+        SHARING
+    \*----------------------*/
     public function testNotSharingByDefault()
     {
         $c = $this->container;
@@ -217,6 +252,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame($c->getFactory('Mailer'), $c->getFactory('Mailer'));
     }
 
+
+
+
+
+    /*----------------------*\
+        HELPERS
+    \*----------------------*/
     private function notImplemented()
     {
         $this->markTestIncomplete('Not yet implemented');
