@@ -4,9 +4,6 @@ namespace Wj\Dic\Test;
 
 class ContainerParameterTest extends ContainerTest
 {
-    /*----------------------*\
-        PARAMETERS
-    \*----------------------*/
     public function testParameters()
     {
         $c = $this->container;
