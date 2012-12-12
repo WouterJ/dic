@@ -30,31 +30,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
 
     /*----------------------*\
-        PARAMETERS
-    \*----------------------*/
-    public function testParameters()
-    {
-        $c = $this->container;
-        $c->setParameter('mailer.transport', 'sendmail');
-
-        $this->assertTrue($c->hasParameter('mailer.transport'));
-        $this->assertEquals('sendmail', $c->getParameter('mailer.transport'));
-    }
-
-    /**
-     * @expectedException Wj\Dic\Exception\NotFoundException
-     * @expectedExceptionMessage The parameter "foo" does not exists
-     */
-    public function testThrowExceptionIfParameterDoesNotExists()
-    {
-        $this->container->getParameter('foo');
-    }
-
-
-
-
-
-    /*----------------------*\
         FACTORIES
     \*----------------------*/
     public function testFactories()
