@@ -424,13 +424,14 @@ class Container implements ContainerInterface
      * @param Container|array $loading The config array or other Container to load
      *
      * @see self::loadContainer
+     * @see self::loadConfig
      */
     public function load($loading)
     {
         if ($loading instanceof Container) {
             $this->loadContainer($loading);
         } elseif (is_array($loading)) {
-            $this->loadconfig($loading);
+            $this->loadConfig($loading);
         }
     }
 }
