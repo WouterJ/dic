@@ -26,6 +26,13 @@ class InstanceManagerTest extends \PHPUnit_Framework_TestCase
         $this->manager = null;
     }
 
+
+
+
+
+    /*----------------------*\
+        INSTANCES
+    \*----------------------*/
     public function testInstancesWithStaticParameters()
     {
         $m = $this->manager;
@@ -74,6 +81,13 @@ class InstanceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('sendmail', $mailer->getTransport());
     }
 
+
+
+
+
+    /*----------------------*\
+        SHARING
+    \*----------------------*/
     public function testInstancesAreNotShared()
     {
         $m = $this->manager;
@@ -86,6 +100,13 @@ class InstanceManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame($newsletter->getMailer(), $newsletter1->getMailer());
     }
 
+
+
+
+
+    /*----------------------*\
+        EXCEPTIONS
+    \*----------------------*/
     /**
      * @expectedException        Wj\Dic\Exception\InstanceManager\CouldNotInitializeException
      * @expectedExceptionMessage Could not initialize the "Foo" class; the class does not exists
@@ -107,6 +128,13 @@ class InstanceManagerTest extends \PHPUnit_Framework_TestCase
         $m->getInstance('Mailer');
     }
 
+
+
+
+
+    /*----------------------*\
+        SHARING
+    \*----------------------*/
     protected function setContainer($container)
     {
         $this->container = $container;
