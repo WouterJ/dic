@@ -2,7 +2,7 @@
 
 namespace Wj\Dic\Test;
 
-class ContainerParameterTest extends ContainerTest
+class ContainerFactoriesTest extends ContainerTest
 {
     public function testFactories()
     {
