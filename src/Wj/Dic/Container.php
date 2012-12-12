@@ -4,6 +4,10 @@ namespace Wj\Dic;
 
 
 use Wj\Dic\Exception\NotFoundException;
+
+use Wj\Dic\InitializeManager\InitializeManager;
+use Wj\Dic\InitializeManager\InitializeManagerInterface;
+
 use Wj\Dic\InstanceManager\InstanceManager;
 use Wj\Dic\InstanceManager\InstanceManagerInterface;
 
@@ -28,6 +32,11 @@ class Container implements ContainerInterface
      * @var InstanceManagerInterface
      */
     private $instanceManager;
+
+    /**
+     * @var InitializeManagerInterface
+     */
+    private $initializeManager;
 
     /**
      * @param int $mode Optional The mode (SHARE or NEW_INSTANCE), NEW_INSTANCE by default
@@ -268,6 +277,52 @@ class Container implements ContainerInterface
     }
 
     /**
+     * @param InitializeManagerInterface $initializeManager
+     */
+    public function setInitializeManager(InitializeManagerInterface $initializeManager)
+    {
+        $this->initializeManager = $initializeManager;
+        $initializeManager->setContainer($this);
+    }
+
+    /**
+     * @return InitializeManagerInterface
+     */
+    public function getInitializeManager()
+    {
+        if (null === $this->initializeManager) {
+            $this->setInitializeManager(new InitializeManager());
+        }
+
+        return $this->initializeManager;
+    }
+
+    /**
+     * Sets an initializer for a specific interface.
+     *
+     * @param string   $interface The name of the interface
+     * @param callable $factory   A PHP callable which modifies the instance
+     *
+     * @see InitializeManagerInterface::setInitializer
+     */
+    public function setInitializer($interface, $factory)
+    {
+        $this->getInitializeManager()->setInitializer($interface, $factory);
+    }
+
+    /**
+     * Puts the instance into a InitializeManager to modify it.
+     *
+     * @param object $instance The instance to modify
+     *
+     * @see InitializeManagerInterface::setUpInstance
+     */
+    public function modifyInstance($instance)
+    {
+        return $this->getInitializeManager()->setUpInstance($instance);
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @throws NotFoundException if the service does not exists
@@ -281,12 +336,16 @@ class Container implements ContainerInterface
         if ($this->hasParameter($name)) {
             return $this->getParameter($name);
         } elseif ($this->hasFactory($name)) {
-            return $this->getFactory($name);
+            $instance = $this->getFactory($name);
         } elseif ($this->canCreateInstance($name)) {
-            return $this->getInstance($name);
+            $instance = $this->getInstance($name);
         } else {
             throw new NotFoundException(sprintf('The service "%s" does not exists', $name));
         }
+
+        $this->modifyInstance($instance);
+
+        return $instance;
     }
 
     /**
