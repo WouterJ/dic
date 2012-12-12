@@ -30,6 +30,13 @@ interface InitializeManagerInterface
     public function modifyInstance($instance, $interface);
 
     /**
+     * Gets an instance and checks if it implements some interfaces.
+     *
+     * @param object $instance The instance to modify
+     */
+    public function setUpInstance($instance);
+
+    /**
      * @param Container $container
      */
     public function setContainer(Container $container);

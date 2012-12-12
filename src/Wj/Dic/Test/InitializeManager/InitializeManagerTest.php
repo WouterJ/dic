@@ -32,10 +32,9 @@ class InitializeManagerTest extends \PHPUnit_Framework_TestCase
             $class->setMailer($c->getInstance('Mailer'));
         });
 
-        $registration = $c->get('Registration');
-        $this->assertInstanceOf('Registration', $registration);
+        $registration = new \Registration();
 
-        $m->modifyInstance($registration, 'MailerAwareInterface');
+        $m->setUpInstance($registration);
         $this->assertInstanceOf('Mailer', $registration->getMailer());
     }
 

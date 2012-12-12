@@ -42,6 +42,19 @@ class InitializeManager implements InitializeManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function setUpInstance($instance)
+    {
+        $reflection = new \ReflectionClass($instance);
+        $interfaces = $reflection->getInterfaceNames();
+
+        foreach ($interfaces as $interface) {
+            $this->modifyInstance($instance, $interface);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setContainer(Container $container)
     {
         $this->container = $container;
