@@ -41,7 +41,7 @@ de container voorstelt:
 .. code-block:: php
 
     // ...
-    $container = new Wj\Dic\Container();
+    $container = new \Wj\Dic\Container();
 
 Nu moeten we onze service registreren. Een WjDic Container zonder uitbereiding
 bevat 2 verschillende typen services: Parameters en Factories. De parameters
@@ -153,7 +153,7 @@ kunt verwijzen naar een andere service door de service naam te prefixen met een
 ``@``.
 
 Stel dat we nu een ``NewsLetter`` class hebben die de ``Mailer`` service als
-parameter heeft:
+argument heeft:
 
 .. code-block:: php
 
@@ -180,12 +180,12 @@ Nu kunnen we naar de ``Mailer`` service verwijzen in onze arguments:
 De service raden
 ~~~~~~~~~~~~~~~~
 
-Maar dat is nog niet alles, onze InstanceManager is slim. Doordat we in de
+Maar dat is nog niet alles, onze InstanceManager is slimmer. Doordat we in de
 constructor van ``NewsLetter`` aangegeven hebben dat we een ``Mailer`` class
 willen als eerste argument zal onze InstanceManager opzoek gaan naar deze
-instance en hem aanmaken. We hoeven dus alleen nog maar de argumenten in te
-stellen voor het ``$transport`` argument van onze ``Mailer`` service en voor de
-rest kan de Container alles krijgen:
+instance en hem proberen aan te maken. We hoeven dus alleen nog maar de 
+argumenten in te stellen voor het ``$transport`` argument van onze ``Mailer``
+service en voor de rest kan de Container alles krijgen:
 
 .. code-block:: php
 
