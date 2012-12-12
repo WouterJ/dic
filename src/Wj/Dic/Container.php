@@ -366,7 +366,7 @@ class Container implements ContainerInterface
      *
      * @param Container $container A DIC container
      */
-    public function load(Container $container)
+    public function loadContainer(Container $container)
     {
         $parameters = $container->getParameters();
         foreach ($parameters as $id => $value) {
@@ -387,6 +387,19 @@ class Container implements ContainerInterface
         foreach ($initializers as $interface => $factory) {
             $this->setInitializer($interface, $factory);
         }
+    }
 
+    /**
+     * Load shortcut.
+     *
+     * @param Container|array $loading The config array or other Container to load
+     *
+     * @see self::loadContainer
+     */
+    public function load($loading)
+    {
+        if ($loading instanceof Container) {
+            $this->loadContainer($loading);
+        }
     }
 }
