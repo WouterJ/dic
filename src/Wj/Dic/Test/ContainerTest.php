@@ -41,7 +41,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     /*----------------------*\
         HELPERS
     \*----------------------*/
-    private function notImplemented()
+    protected function notImplemented()
     {
         $this->markTestIncomplete('Not yet implemented');
     }

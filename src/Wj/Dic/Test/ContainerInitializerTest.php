@@ -6,8 +6,6 @@ class ContainerInitializerTest extends ContainerTest
 {
     public function testInitializer()
     {
-        $this->notImplemented();
-
         $c = $this->container;
         $c->setInstance('Mailer', array('sendmail'));
 
