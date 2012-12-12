@@ -53,4 +53,56 @@ class ContainerLoadTest extends ContainerTest
         $this->assertInstanceOf('Registration', $registration);
         $this->assertInstanceOf('Mailer', $registration->getMailer());
     }
+
+    public function testLoadConfigWithFactories()
+    {
+        $c = $this->container;
+        $c->load(array(
+            'parameters' => array(
+                'mailer.transport' => 'sendmail',
+            ),
+            'factories' => array(
+                'mailer' => function ($c1) {
+                    return new \Mailer($c1->get('mailer.transport'));
+                },
+            ),
+        ));
+
+        $mailer = $c->get('mailer');
+        $this->assertInstanceOf('Mailer', $mailer);
+        $this->assertEquals('sendmail', $mailer->getTransport());
+    }
+
+    public function testLoadConfigWithInstances()
+    {
+        $c = $this->container;
+        $c->load(array(
+            'instances' => array(
+                'Mailer' => array('sendmail'),
+            ),
+        ));
+
+        $mailer = $c->get('Mailer');
+        $this->assertInstanceOf('Mailer', $mailer);
+        $this->assertEquals('sendmail', $mailer->getTransport());
+    }
+
+    public function testLoadConfigWithInitializers()
+    {
+        $c = $this->container;
+        $c->load(array(
+            'instances' => array(
+                'Mailer' => array('sendmail'),
+            ),
+            'initializers' => array(
+                'MailerAwareInterface' => function ($instance, $c1) {
+                    $instance->setMailer($c1->get('Mailer'));
+                },
+            ),
+        ));
+
+        $registration = $c->get('Registration');
+        $this->assertInstanceOf('Registration', $registration);
+        $this->assertInstanceOf('Mailer', $registration->getMailer());
+    }
 }

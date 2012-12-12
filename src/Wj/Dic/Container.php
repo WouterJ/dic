@@ -390,6 +390,35 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Loads a configuration array into this container.
+     *
+     * @param array $config
+     */
+    public function loadConfig(array $config)
+    {
+        isset($config['parameters']) || ($config['parameters'] = array());
+        isset($config['factories']) || ($config['factories'] = array());
+        isset($config['instances']) || ($config['instances'] = array());
+        isset($config['initializers']) || ($config['initializers'] = array());
+
+        foreach ($config['parameters'] as $id => $value) {
+            $this->setParameter($id, $value);
+        }
+
+        foreach ($config['factories'] as $id => $factory) {
+            $this->setFactory($id, $factory);
+        }
+
+        foreach ($config['instances'] as $name => $arguments) {
+            $this->setInstance($name, $arguments);
+        }
+
+        foreach ($config['initializers'] as $interface => $factory) {
+            $this->setInitializer($interface, $factory);
+        }
+    }
+
+    /**
      * Load shortcut.
      *
      * @param Container|array $loading The config array or other Container to load
@@ -400,6 +429,8 @@ class Container implements ContainerInterface
     {
         if ($loading instanceof Container) {
             $this->loadContainer($loading);
+        } elseif (is_array($loading)) {
+            $this->loadconfig($loading);
         }
     }
 }
