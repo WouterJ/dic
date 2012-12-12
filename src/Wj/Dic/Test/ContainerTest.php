@@ -29,36 +29,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
 
 
-    /*----------------------*\
-        INSTANCES
-    \*----------------------*/
-    public function testInstanceManagerWithStaticParameters()
-    {
-        $c = $this->container;
-        $c->setInstance('Mailer', array('sendmail'));
-
-        $mailer = $c->getInstance('Mailer');
-
-        $this->assertInstanceOf('Mailer', $mailer);
-        $this->assertEquals('sendmail', $mailer->getTransport());
-    }
-
-    public function testInstanceManagerWithObjectParameters()
-    {
-        $c = $this->container;
-        $c->setInstance('Mailer', array('sendmail'));
-
-        $newsletter = $c->getInstance('NewsLetter');
-        $this->assertInstanceOf('NewsLetter', $newsletter);
-
-        $mailer = $newsletter->getMailer();
-        $this->assertInstanceOf('Mailer', $mailer);
-        $this->assertEquals('sendmail', $mailer->getTransport());
-    }
-
-
-
-
 
     /*----------------------*\
         SHORTCUT
