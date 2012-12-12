@@ -360,4 +360,33 @@ class Container implements ContainerInterface
     {
         return $this->hasParameter($name) || $this->hasFactory($name) || $this->canCreateInstance($name);
     }
+
+    /**
+     * Loads other Containers into this container.
+     *
+     * @param Container $container A DIC container
+     */
+    public function load(Container $container)
+    {
+        $parameters = $container->getParameters();
+        foreach ($parameters as $id => $value) {
+            $this->setParameter($id, $value);
+        }
+
+        $factories = $container->getFactories();
+        foreach ($factories as $id => $factory) {
+            $this->setFactory($id, $factory);
+        }
+
+        $instances = $container->getInstanceManager()->getInstances();
+        foreach ($instances as $name => $arguments) {
+            $this->setInstance($name, $arguments);
+        }
+
+        $initializers = $container->getInitializeManager()->getInitializers();
+        foreach ($initializers as $interface => $factory) {
+            $this->setInitializer($interface, $factory);
+        }
+
+    }
 }
