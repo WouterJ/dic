@@ -152,6 +152,14 @@ class InstanceManager implements InstanceManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function hasInstance($name)
+    {
+        return isset($this->instances[$name]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setContainer(Container $container)
     {
         $this->container = $container;

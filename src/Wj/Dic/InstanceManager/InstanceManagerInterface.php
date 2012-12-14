@@ -31,6 +31,13 @@ interface InstanceManagerInterface
     public function getInstance($name);
 
     /**
+     * @param string $name The name of the instance
+     *
+     * @return boolean
+     */
+    public function hasInstance($name);
+
+    /**
      * @param Container $container
      */
     public function setContainer(Container $container);
