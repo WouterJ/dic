@@ -22,6 +22,13 @@ interface InitializeManagerInterface
     public function setInitializer($interface, $factory);
 
     /**
+     * @param string $interface The name of the interface
+     *
+     * @return boolean
+     */
+    public function hasInitializer($interface);
+
+    /**
      * Modify an instance with a initializer.
      *
      * @param object $instance  The instance to modify

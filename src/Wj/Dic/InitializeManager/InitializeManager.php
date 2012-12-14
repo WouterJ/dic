@@ -40,6 +40,14 @@ class InitializeManager implements InitializeManagerInterface
     /**
      * {@inheritdoc}
      */
+    public function hasInitializer($interface)
+    {
+        return isset($this->initilizers[$interface]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function modifyInstance($instance, $interface)
     {
         if (isset($this->initializers[$interface])) {
