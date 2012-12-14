@@ -106,6 +106,28 @@ class ContainerLoadTest extends ContainerTest
         $this->assertInstanceOf('Mailer', $registration->getMailer());
     }
 
+    public function testLoadEqualServices()
+    {
+        list($c, $c1) = $this->generateContainersForEqualTests();
+
+        $c->load($c1);
+
+        $mailer = $c->get('mailer');
+        $this->assertInstanceOf('Mailer', $mailer);
+        $this->assertEquals('phpmail', $mailer->getTransport(), 'Loaded container wins');
+    }
+
+    public function testLoadEqualServicesWithNoOverrideFlag()
+    {
+        list($c, $c1) = $this->generateContainersForEqualTests();
+
+        $c->load($c1, Container::NO_OVERRIDE);
+
+        $mailer = $c->get('mailer');
+        $this->assertInstanceOf('Mailer', $mailer);
+        $this->assertEquals('sendmail', $mailer->getTransport());
+    }
+
     /**
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Invalid type to load, it should be an array or Container, string given
@@ -113,5 +135,19 @@ class ContainerLoadTest extends ContainerTest
     public function testThrowExceptionIfWrongType()
     {
         $this->container->load('foo');
+    }
+
+    protected function generateContainersForEqualTests()
+    {
+        $c = $this->container;
+        $c1 = new Container();
+
+        $c->setParameter('mailer.transport', 'sendmail');
+        $c1->setParameter('mailer.transport', 'phpmail');
+        $c->setFactory('mailer', function ($c) {
+            return new \Mailer($c->get('mailer.transport'));
+        });
+
+        return array($c, $c1);
     }
 }

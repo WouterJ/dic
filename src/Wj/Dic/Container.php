@@ -28,6 +28,8 @@ class Container implements ContainerInterface
     const NEW_INSTANCE = 1;
     const SHARE = 2;
 
+    const NO_OVERRIDE = 4;
+
     /**
      * @var InstanceManagerInterface
      */
@@ -365,26 +367,48 @@ class Container implements ContainerInterface
      * Loads other Containers into this container.
      *
      * @param Container $container A DIC container
+     * @param int       $flags     Optional flags to modify default behaviour
      */
-    public function loadContainer(Container $container)
+    public function loadContainer(Container $container, $flags = 0)
     {
+        $override = true;
+        if (self::NO_OVERRIDE === (self::NO_OVERRIDE & $flags)) {
+            $override = false;
+        }
+
         $parameters = $container->getParameters();
         foreach ($parameters as $id => $value) {
+            if (!$override && $this->hasParameter($id)) {
+                continue;
+            }
+
             $this->setParameter($id, $value);
         }
 
         $factories = $container->getFactories();
         foreach ($factories as $id => $factory) {
+            if (!$override && $this->hasFactory($id)) {
+                continue;
+            }
+
             $this->setFactory($id, $factory);
         }
 
         $instances = $container->getInstanceManager()->getInstances();
         foreach ($instances as $name => $arguments) {
+            if (!$override && $this->getInstanceManager()->hasInstance($id)) {
+                continue;
+            }
+
             $this->setInstance($name, $arguments);
         }
 
         $initializers = $container->getInitializeManager()->getInitializers();
         foreach ($initializers as $interface => $factory) {
+            if (!$override && $this->getInitializeManager()->hasInitializer($id)) {
+                continue;
+            }
+
             $this->setInitializer($interface, $factory);
         }
     }
@@ -422,18 +446,19 @@ class Container implements ContainerInterface
      * Load shortcut.
      *
      * @param Container|array $loading The config array or other Container to load
+     * @param int             $flags   Optional flags to modify default behaviour
      *
      * @throws \InvalidArgumentException if the $loading is not an array or Container
      *
      * @see self::loadContainer
      * @see self::loadConfig
      */
-    public function load($loading)
+    public function load($loading, $flags = 0)
     {
         if ($loading instanceof Container) {
-            $this->loadContainer($loading);
+            $this->loadContainer($loading, $flags);
         } elseif (is_array($loading)) {
-            $this->loadConfig($loading);
+            $this->loadConfig($loading, $flags);
         } else {
             throw new \InvalidArgumentException(
                 sprintf('Invalid type to load, it should be an array or Container, %s given', gettype($loading))
