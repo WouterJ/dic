@@ -10,12 +10,12 @@ je dan makkelijk nieuwe versie kunt krijgen.
 WjDic is een composer package onder de naam `wouterj/dic`. Run hetvolgende
 command en je zult hem in je composer project krijgen:
 
-````php
+````bash
 # update composer
 $ php composer.phar self-update
 
 # install package version 1.0.x
-$ php composer.phar require wouterj/dic:1.0.x
+$ php composer.phar require wouterj/dic:0.9.x
 ````
 
 ## Downloads
