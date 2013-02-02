@@ -1,6 +1,6 @@
 <?php
 
-namespace Wj\dic\InitializeManager;
+namespace Wj\Dic\InitializeManager;
 
 
 use Wj\Dic\Container;
