@@ -1,55 +1,71 @@
 {
-    "hash": "420d19c91c1c2cf6e199b0666d0c2d2d",
+    "hash": "a853cc56511af033e29c7ab703f32099",
     "packages": [
+
+    ],
+    "packages-dev": [
         {
-            "name": "fsi/cache",
+            "name": "mockery/mockery",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fsi-open/cache",
-                "reference": "0.9.3"
+                "url": "git://github.com/padraic/mockery.git",
+                "reference": "1a1a2228a009bb5b925bab7e575095eab91d6232"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fsi-open/cache/archive/0.9.3.zip",
-                "reference": "0.9.3",
+                "url": "https://github.com/padraic/mockery/archive/1a1a2228a009bb5b925bab7e575095eab91d6232.zip",
+                "reference": "1a1a2228a009bb5b925bab7e575095eab91d6232",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.3.2"
             },
-            "time": "1352380696",
+            "require-dev": {
+                "hamcrest/hamcrest": "1.1.0"
+            },
+            "suggest": {
+                "Hamcrest": "1.0.0"
+            },
+            "time": "2013-01-29 00:38:35",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "FSi\\Component\\Cache": "lib/"
+                    "Mockery": "library/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
-                    "name": "Norbert Orzechowicz",
-                    "email": "norbert@fsi.pl"
+                    "name": "Pádraic Brady",
+                    "email": "padraic.brady@gmail.com",
+                    "homepage": "http://blog.astrumfutura.com"
                 }
             ],
-            "description": "FSi Cache - Lightweight component that supports different cache storages with namespaces.",
+            "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succint API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.",
+            "homepage": "http://github.com/padraic/mockery",
             "keywords": [
-                "cache",
-                "component",
-                "fsi"
+                "testing",
+                "library",
+                "BDD",
+                "TDD",
+                "test",
+                "mockery",
+                "mock",
+                "stub",
+                "test double",
+                "mock objects"
             ]
         }
     ],
-    "packages-dev": null,
     "aliases": [
 
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "fsi/cache": 20,
         "mockery/mockery": 20
     }
 }
