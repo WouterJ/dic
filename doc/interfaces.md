@@ -1,8 +1,8 @@
 # Aanpassen met Interface
 
 Als je met grotere applicaties werkt ga je gebruik maken van aware interfaces,
-bijv. `EventDispatcherAwareInterface`. Deze interfaces geven aan dat deze 
-class de EventDispatcher heeft opgeslagen. Je hebt vaak een methode als
+bijv. `EventDispatcherAwareInterface`. Deze interfaces geven aan dat deze
+class de `EventDispatcher` kan opgeslaan. Je hebt vaak een methode als
 `setEventDispatcher` waarin je de event dispatcher injecteert. Maar dit moet
 je elke keer controlleren en zo ja de event dispatcher injecteren:
 
@@ -32,8 +32,8 @@ heten als hij dit niet zou kunnen en daarom maken we nu kennis met de
 `InitializeManager`. Deze is net zoals de `InstanceManager` geintegreerd in de
 container, maar niet bij aanmaken beschikbaar (wel als je hem gaat gebruiken).
 
-Met deze manager kun je *Initializer* aanmaken. Dit is ongeveer hetzelfde als
-een factory, met de uitzondering dat deze vlak voor het teruggeven van de
+Met deze manager kun je een *Initializer* aanmaken. Dit is ongeveer hetzelfde
+als een factory, met de uitzondering dat deze vlak voor het teruggeven van de
 service wordt aangeroepen. De service is dan al gemaakt en jij kunt de
 instance gaan aanpassen.
 
