@@ -4,7 +4,6 @@ namespace Wj\Dic\InitializeManager;
 
 
 use Wj\Dic\Container;
-use Wj\Dic\InitializeManager\InitializeManagerInterface;
 
 
 class InitializeManager implements InitializeManagerInterface
